@@ -1,16 +1,12 @@
 import axios from 'axios';
 
-const api = axios.create({
-    baseURL: 'http://localhost:4000/api', // La URL de tu backend
-});
+// Detecta si estamos en producción (Vercel) o en local
+const API_URL = import.meta.env.MODE === 'production' 
+    ? 'https://backend-refugio.onrender.com/api'  // <--- TU LINK DE RENDER AQUÍ
+    : 'http://localhost:4000/api';
 
-// Esto intercepta cada petición y le pega el Token si existe
-api.interceptors.request.use((config) => {
-    const user = JSON.parse(localStorage.getItem('userInfo'));
-    if (user && user.token) {
-        config.headers.Authorization = `Bearer ${user.token}`;
-    }
-    return config;
+const api = axios.create({
+    baseURL: API_URL,
 });
 
 export default api;
