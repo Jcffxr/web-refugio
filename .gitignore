@@ -1,0 +1,15 @@
+# Ignorar dependencias pesadas (de ambos lados)
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# --- ¡IMPORTANTE! IGNORAR LAS CLAVES SECRETAS ---
+.env
+backend/.env
+frontend/.env
+
+# Archivos de sistema y logs
+.DS_Store
+npm-debug.log
+dist/
+build/
