@@ -24,7 +24,7 @@ const createAnimal = async (req, res) => {
             imageUrl = result.secure_url;
             imagePublicId = result.public_id;
         }
-
+        // Actualizando logs
         // 2. Crear mascota en Base de Datos
         const newAnimal = new Animal({
             nombre,
