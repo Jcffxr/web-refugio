@@ -28,7 +28,7 @@ app.use(cors({
     },
     credentials: true // Permitir cookies o headers especiales si se necesitan
 }));
-// --- FIN DEL CAMBIO ---
+
 
 app.use(express.json()); // Para leer JSON
 

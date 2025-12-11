@@ -56,7 +56,7 @@ const createAnimal = async (req, res) => {
         // Ya no necesitamos Ngrok porque 'savedAnimal.image' es un link real
         if (savedAnimal.image) {
             // TU URL DE MAKE (Asegúrate que sea la correcta que te dio Make)
-            const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/7u7rmat7drvevgrbx7ux82dbmd0msz06'; 
+            const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/y1qoc7uytydvtihmuiicrfymd2j3grtu'; 
 
             const payload = {
                 nombre: savedAnimal.name,
