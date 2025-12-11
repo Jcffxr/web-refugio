@@ -9,26 +9,26 @@ connectDB();
 
 const app = express();
 
-// --- INICIO DEL CAMBIO DE SEGURIDAD (CORS) ---
-const allowedOrigins = [
-    'http://localhost:5173',                  // Para cuando trabajas en tu PC
-    'https://web-refugio.vercel.app'          // TU VERCEL (Sin la barra / al final)
-];
-
+// --- NUEVA CONFIGURACIÓN DE SEGURIDAD (CORS FLEXIBLE) ---
 app.use(cors({
     origin: function (origin, callback) {
-        // Permitir solicitudes sin origen (como Postman o Mobile Apps)
+        // Permitir solicitudes sin origen (como Postman o Apps móviles)
         if (!origin) return callback(null, true);
-        
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'La política CORS no permite acceso desde este origen.';
-            return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-    },
-    credentials: true // Permitir cookies o headers especiales si se necesitan
-}));
 
+        // AQUÍ ESTÁ EL CAMBIO CLAVE:
+        // Si el origen contiene la palabra 'localhost' O 'vercel.app', lo dejamos pasar.
+        // Esto evita errores por barras '/' al final o subdominios.
+        if (origin.includes('localhost') || origin.includes('vercel.app')) {
+            return callback(null, true);
+        }
+
+        // Si no cumple, mostramos en los logs quién intentó entrar y lo bloqueamos
+        console.log('🚫 Origen bloqueado por CORS:', origin);
+        return callback(new Error('La política CORS no permite acceso desde este origen.'), false);
+    },
+    credentials: true // Permitir cookies o headers de autorización
+}));
+// --------------------------------------------------------
 
 app.use(express.json()); // Para leer JSON
 
@@ -36,7 +36,7 @@ app.use(express.json()); // Para leer JSON
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/animals', require('./routes/animalRoutes'));
 
-// (Opcional) Esta línea ya no es necesaria con Cloudinary, pero no hace daño dejarla
+// (Opcional) Carpeta uploads pública
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 const PORT = process.env.PORT || 4000;
